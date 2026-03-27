@@ -1,0 +1,29 @@
+name: Create or Delete VPC
+
+on:
+    workflow_dispatch:
+        inputs:
+            actions:
+                description: 'Choose action: Create or Delete VPC'
+                type: choice
+                options:
+                    - Create
+                    - Delete
+jobs:
+    vpc:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install Terraform
+              uses: hashicorp/setup-terraform@v3
+
+            - name: Install Terragrunt
+              run: |
+                wget -O terragrunt https://github.com/gruntwork-io/terragrunt/releases/latest/download/terragrunt_linux_amd64
+                chmod +x terragrunt
+                sudo mv terragrunt /usr/local/bin/
+                
+            - name: Terragrunt Apply
+              run: terragrunt run-all apply -auto-approve

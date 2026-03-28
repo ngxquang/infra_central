@@ -7,7 +7,7 @@ remote_state {
   config = {
     bucket         = "sandbox-as1-state-tf"
     key            = "values/vpc/terraform.tfstate"
-    region         = "ap-south-1"
+    region         = "ap-southeast-1"
     encrypt        = true
   }
 }
@@ -17,12 +17,12 @@ terraform {
 }
 
 inputs = {
-  region   = "ap-south-1"
+  region   = "ap-southeast-1"
   vpc_cidr = "10.0.0.0/16"
   prefix   = "dev"
 
   azs = [
-    "ap-south-1a"
+    "ap-southeast-1a"
   ]
 }
 

@@ -48,3 +48,4 @@ jobs:
               run: |
                   cd values/vpc
                   terragrunt plan
+                  terragrunt aplly --auto-approve

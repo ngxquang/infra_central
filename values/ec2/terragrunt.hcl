@@ -1,3 +1,17 @@
+remote_state {
+  backend = "s3"
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite"
+  }
+  config = {
+    bucket         = "ngxquang-as1-state-tf"
+    key            = "values/ec2/terraform.tfstate"
+    region         = "ap-southeast-1"
+    encrypt        = true
+  }
+}
+
 terraform {
   source = "../../stack/ec2"
 }

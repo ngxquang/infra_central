@@ -5,7 +5,7 @@ remote_state {
     if_exists = "overwrite"
   }
   config = {
-    bucket         = "sandbox-as1-state-tf"
+    bucket         = "ngxquang-as1-state-tf"
     key            = "values/vpc/terraform.tfstate"
     region         = "ap-southeast-1"
     encrypt        = true

@@ -63,6 +63,6 @@ jobs:
 
                 elif [[ "$RESOURCE" == "vpc" && "$ACTION" == "delete" ]]; then
                   cd values
-                  terragrunt run --all destroy -- -auto-approve
+                  terragrunt run --all destroy --non-interactive -- -auto-approve
 
                 fi

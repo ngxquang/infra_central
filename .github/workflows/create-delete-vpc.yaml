@@ -55,7 +55,7 @@ jobs:
 
                 elif [[ "$RESOURCE" == "ec2" && "$ACTION" == "create" ]]; then
                   cd values
-                  terragrunt run-all apply -auto-approve
+                  terragrunt run --all apply -- -auto-approve
 
                 elif [[ "$RESOURCE" == "ec2" && "$ACTION" == "delete" ]]; then
                   cd values/ec2
@@ -63,6 +63,6 @@ jobs:
 
                 elif [[ "$RESOURCE" == "vpc" && "$ACTION" == "delete" ]]; then
                   cd values
-                  terragrunt run-all destroy -- -auto-approve
+                  terragrunt run --all destroy -- -auto-approve
 
                 fi

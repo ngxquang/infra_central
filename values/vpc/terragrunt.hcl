@@ -5,9 +5,9 @@ remote_state {
     if_exists = "overwrite"
   }
   config = {
-    bucket         = "ngxquang-as1-state-tf"
+    bucket         = "sandbox-as1-state-tf"
     key            = "values/vpc/terraform.tfstate"
-    region         = "ap-southeast-1"
+    region         = "ap-south-1"
     encrypt        = true
   }
 }
@@ -17,12 +17,23 @@ terraform {
 }
 
 inputs = {
-  region   = "ap-southeast-1"
+  region = "ap-south-1"
+  prefix = "digi-easy"
+
+  number_public_subnets  = 2
+  number_private_subnets = 2
+
   vpc_cidr = "10.0.0.0/16"
-  prefix   = "dev"
 
-  azs = [
-    "ap-southeast-1a"
-  ]
+  enable_nat_gateway = true
+  private_domain     = "digi-easy.internal"
+
+  tags = {
+    Project     = "digi-easy"
+    Environment = "qa"
+    ManagedBy   = "terraform"
+  }
+
+  # ipam_pool_id        = "ipam-pool-05d0bf3e999f82e78"
+  # ipam_netmask_length = 16
 }
-

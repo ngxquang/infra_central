@@ -5,9 +5,9 @@ remote_state {
     if_exists = "overwrite"
   }
   config = {
-    bucket         = "ngxquang-as1-state-tf"
-    key            = "values/ec2/terraform.tfstate"
-    region         = "ap-southeast-1"
+    bucket         = "sandbox-as1-state-tf"
+    key            = "${path_relative_to_include()}/runner/terraform.tfstate"
+    region         = "ap-south-1"
     encrypt        = true
   }
 }
@@ -20,14 +20,37 @@ dependency "vpc" {
   config_path = "../vpc"
 }
 
+dependency "alb" {
+  config_path = "../alb"
+}
+
 inputs = {
-  region         = "ap-southeast-1"
-  instance_name  = "dev-ec2"
-  instance_type  = "t3.small"
-  key_name       = "tf-test-keypair"
+  region    = "ap-south-1"
+  subnet_id = dependency.vpc.outputs.private_subnet_ids[0]
 
-  vpc_id    = dependency.vpc.outputs.vpc_id
-  subnet_id = dependency.vpc.outputs.public_subnet_id
+  vpc_id   = dependency.vpc.outputs.vpc_id
+  vpc_cidr = dependency.vpc.outputs.vpc_cidr
 
-  inbound_ports = [22, 80, 443, 8443]
+  ebs_disk_size = 100
+
+  prefix = "digi-easy"
+  suffix = "qa"
+
+  instance_type = "t3.large"
+  key_name      = "digi-easy-qa-key"
+
+  target_group_arns  = [dependency.alb.outputs.target_group_arn]
+
+  workspace_ebs_name = "digi-easy-qa-workspace"
+  workspace_ebs_size = 50
+
+  gitea_repo_url          = "https://workspace.digital-easy.link:5000/internal/infra_central"
+  ssm_gitea_username_path = "/ec2/gitea/username"
+  ssm_gitea_token_path    = "/ec2/gitea/token"
+
+  tags = {
+    Project     = "digi-easy"
+    Environment = "qa"
+    ManagedBy   = "terraform"
+  }
 }
